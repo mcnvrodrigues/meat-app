@@ -1,5 +1,10 @@
-import { Restaurant } from "./restaurant/restaurant.model";
+import { Injectable } from "@angular/core"
+import { MEAT_API } from "../app.api"
+import { Restaurant } from "./restaurant/restaurant.model"
+import { HttpClient } from "@angular/common/http"
+import { Observable } from "rxjs"
 
+@Injectable()
 export class RestaurantsService {
 
     rests: Restaurant[] = [
@@ -17,55 +22,17 @@ export class RestaurantsService {
             "category": "Hamburgers",
             "deliveryEstimate": "100m",
             "rating": 3.5,
-            "imagePath": "assets/img/restaurants/burgerhouse.png",
-
-        },
-        {
-            "id": "coffee-corner",
-            "name": "Coffee Corner",
-            "category": "Coffee Shop",
-            "deliveryEstimate": "30-40m",
-            "rating": 4.8,
-            "imagePath": "assets/img/restaurants/coffeecorner.png",
-
-        },
-        {
-            "id": "green-food",
-            "name": "Green Food",
-            "category": "Saudável",
-            "deliveryEstimate": "75m",
-            "rating": 4.1,
-            "imagePath": "assets/img/restaurants/greenfood.png",
-        },
-        {
-            "id": "ice-cream",
-            "name": "Ice Cream",
-            "category": "Ice Creams",
-            "deliveryEstimate": "40-65m",
-            "rating": 4.5,
-            "imagePath": "assets/img/restaurants/icy.png",
-        },
-        {
-            "id": "tasty-treats",
-            "name": "Tasty Treats",
-            "category": "Doces",
-            "deliveryEstimate": "20m",
-            "rating": 4.4,
-            "imagePath": "assets/img/restaurants/tasty.png",
-        },
-        {
-            "id": "garotinho-treats",
-            "name": "Lanchonete Garotinho",
-            "category": "Salgados",
-            "deliveryEstimate": "20m",
-            "rating": 4.4,
-            "imagePath": "assets/img/restaurants/garotinho.png",
+            "imagePath": "assets/img/restaurants/burgerhouse.png"
         }
     ]
 
-    constructor() { }
+    constructor(private http: HttpClient) { }
 
     getRestaurants(): Restaurant[] {
         return this.rests
+    }
+
+    restaurants(): Observable<Restaurant[]>{
+        return this.http.get<Restaurant[]>(`${MEAT_API}/restaurants`)
     }
 }
